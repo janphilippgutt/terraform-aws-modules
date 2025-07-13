@@ -38,7 +38,7 @@ jobs:
       - name: Install tflint
         uses: terraform-linters/setup-tflint@v4 # Downloading the appropriate binary for the runner is baked into the Action. No run command required
         with:
-          tflint_version: 0.58.1
+          tflint_version: v0.50.3
 
       - name: TFLint Run
         run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
