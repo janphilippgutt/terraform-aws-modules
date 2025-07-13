@@ -1,0 +1,46 @@
+name: Terraform CI
+
+on:
+  push:
+    branches: [main] # Run this workflow when someone pushes to main
+  pull_request:
+    branches: [main] # Or when someone opens a pull request targeting main
+
+jobs:
+  terraform: # Defines a job called terraform, which runs all the steps below it
+    name: Terraform Lint & Validate
+    runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./vpc  # Tells the runner which folder to run commands in. Adjust per module
+
+    steps:
+      - name: Checkout repo # Downloads repo into the GitHub Actions runner
+        uses: actions/checkout@v4 # Version of GitHub Actions
+
+      - name: Set up Terraform # Installs the Terraform CLI in the runner
+        uses: hashicorp/setup-terraform@v3 # @v3 is the major version of this official GitHub Action from HashiCorp
+        with:
+          terraform_version: 1.12.2
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive # Checks if any Terraform files in current directory and subdirectories (-recursive) are misformatted (-check is for check-only mode, no rewriting). It fails the build if there is a formatting issue
+
+      - name: Terraform Init
+        run: terraform init # Initializes the module (downloads required providers, sets up .terraform directory, etc.)
+
+      - name: Terraform Validate
+        run: | # Preserving newline
+          terraform validate # Validates the syntax and logical correctness of your Terraform files
+          echo "✅ Terraform configuration is valid"
+
+      - name: Install tflint
+        uses: terraform-linters/setup-tflint@v4 # Downloading the appropriate binary for the runner is baked into the Action. No run command required
+        with:
+          tflint_version: 0.58.1
+
+      - name: TFLint Run
+        run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
+
+# Consider maing terraform plan a separate optional job
