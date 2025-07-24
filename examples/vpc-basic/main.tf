@@ -11,7 +11,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "../../vpc"
+  source = "../../modules/vpc"
 
   name                 = "devops-vpc"
   cidr_block           = "10.0.0.0/16"

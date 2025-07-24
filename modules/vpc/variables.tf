@@ -19,3 +19,15 @@ variable "enable_dns_hostnames" {
   type        = bool
   default     = true
 }
+
+variable "public_subnet_cidrs" {
+  type        = list(string)
+  description = "List of CIDR blocks for public subnets"
+  default     = ["10.0.1.0/24"]
+}
+
+variable "availability_zones" {
+  type        = list(string)
+  description = "List of availability zones to use for the subnets"
+  default     = ["eu-central-1a"]
+}
