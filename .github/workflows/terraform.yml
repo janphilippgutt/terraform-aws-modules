@@ -10,10 +10,16 @@ jobs:
   terraform: # Defines a job called terraform, which runs all the steps below it
     name: Terraform Lint & Validate
     runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
+    strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
+      matrix: # A defined list of module directories to test separately
+        module:
+          - modules/vpc
+          - modules/ec2
+
     defaults:
       run:
         shell: bash
-        working-directory: ./modules/vpc  # Tells the runner which folder to run commands in. Adjust per module
+        working-directory: ${{ matrix.module }}  # Tells the runner which folders to run commands in.
 
     steps:
       - name: Checkout repo # Downloads repo into the GitHub Actions runner
