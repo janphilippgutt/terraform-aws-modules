@@ -13,7 +13,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./vpc  # Tells the runner which folder to run commands in. Adjust per module
+        working-directory: ./modules/vpc  # Tells the runner which folder to run commands in. Adjust per module
 
     steps:
       - name: Checkout repo # Downloads repo into the GitHub Actions runner
