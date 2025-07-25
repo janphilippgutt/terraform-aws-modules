@@ -3,7 +3,8 @@ output "vpc_id" {
   value       = aws_vpc.this.id
 }
 
+# Expose the subnet IDs so the EC2 example can use them
 output "public_subnet_ids" {
   description = "IDs of the public subnets"
-  value       = aws_subnet.public[*].id
+  value       = [for s in aws_subnet.public : s.id]
 }
