@@ -31,3 +31,8 @@ module "vpc" {
   name       = "my-vpc"
 }
 ```
+
+### Note
+
+Replace the username with your GitHub username if you fork this repo
+source = "git::https://github.com/your-username/terraform-aws-modules.git//modules/vpc?ref=v1.0.0"

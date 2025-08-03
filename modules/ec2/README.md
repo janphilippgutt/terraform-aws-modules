@@ -28,7 +28,7 @@ Provisions an EC2 instance using a specified AMI and subnet. It's designed for r
 
 ```hcl
 module "ec2" {
-  source     = "git::https://github.com/YOUR_USERNAME/terraform-aws-modules.git//modules/ec2?ref=v1.0.0"
+  source     = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/ec2?ref=v1.0.0"
   ami_id     = "ami-xxxxxxxxxxxxxxxxx"
   subnet_id  = "subnet-xxxxxxxxxxxxxx"
   name       = "my-ec2-instance"
@@ -41,4 +41,5 @@ module "ec2" {
 
 - ?ref=v1.0.0: This pins the module to a specific Git tag or branch (best practice for stability).
 
-- Replace YOUR_USERNAME with your actual GitHub username or org.
+- Replace the username with your GitHub username if you fork this repo
+source = "git::https://github.com/your-username/terraform-aws-modules.git//modules/ec2?ref=v1.0.0"

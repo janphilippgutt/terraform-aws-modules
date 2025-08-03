@@ -31,7 +31,7 @@ git push origin v1.0.0
 
 When using this module from GitHub, refer to the tag like this:
 ```module "vpc" {
-  source = "git::https://github.com/YOUR_USERNAME/terraform-aws-modules.git//modules/vpc?ref=v1.0.0"
+  source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/vpc?ref=v1.0.0"
   ...
 }
 ```
