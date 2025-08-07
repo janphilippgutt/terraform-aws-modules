@@ -22,13 +22,14 @@ resource "aws_s3_bucket_website_configuration" "static_site" {
 resource "aws_s3_bucket_public_access_block" "static_site" {
     bucket = aws_s3_bucket.static_site.id
 
-    block_public_acls = true
-    block_public_policy = true
-    ignore_public_acls = true
-    restrict_public_buckets = true
+    block_public_acls = !var.enable_public_access
+    block_public_policy = !var.enable_public_access
+    ignore_public_acls = !var.enable_public_access
+    restrict_public_buckets = !var.enable_public_access
 }
 
 resource "aws_s3_bucket_policy" "static_site" {
+    count  = var.enable_public_access ? 1 : 0
     bucket = aws_s3_bucket.static_site.id
 
     policy = jsonencode({

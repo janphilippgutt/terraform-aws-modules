@@ -20,3 +20,9 @@ variable "error_document" {
   type        = string
   default     = "error.html"
 }
+
+variable "enable_public_access" {
+  description = "If true, allow public read access to the bucket"
+  type        = bool
+  default     = false
+}
