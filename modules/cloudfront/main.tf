@@ -2,11 +2,11 @@ data "aws_caller_identity" "current" {}
 
 # Create Origin Access Control (OAC)
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                                 = "${var.bucket_name}-oac"
-  description                          = "OAC for ${var.bucket_name}"
-  origin_access_control_origin_type    = "s3"
-  signing_behavior                     = "always"    # sign requests
-  signing_protocol                     = "sigv4"
+  name                              = "${var.bucket_name}-oac"
+  description                       = "OAC for ${var.bucket_name}"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always" # sign requests
+  signing_protocol                  = "sigv4"
 }
 
 locals {
@@ -31,9 +31,9 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.origin_id
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    target_origin_id       = local.origin_id
     viewer_protocol_policy = "redirect-to-https"
 
     forwarded_values {

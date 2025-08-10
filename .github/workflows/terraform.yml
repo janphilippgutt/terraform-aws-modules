@@ -15,6 +15,8 @@ jobs:
         module:
           - modules/vpc
           - modules/ec2
+          - modules/s3-static-site
+          - modules/cloudfront
 
     defaults:
       run:
@@ -49,4 +51,4 @@ jobs:
       - name: TFLint Run
         run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
 
-# Consider maing terraform plan a separate optional job
+# Consider making terraform plan a separate optional job

@@ -18,8 +18,8 @@ variable "enable_public_access" {
 
 variable "tags" {
   description = "Additional tags to add to all resources."
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
 }
 
 variable "bucket_name" {
@@ -41,6 +41,6 @@ variable "for_cloudfront" {
 
 variable "use_oac" {
   description = "Whether the bucket is accessed via CloudFront OAC. If true, public access policy will not be created."
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }

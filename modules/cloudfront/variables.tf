@@ -15,8 +15,8 @@ variable "bucket_arn" {
 
 variable "comment" {
   description = "Comment for the CloudFront distribution."
-  type    = string
-  default = "CloudFront distribution for static site"
+  type        = string
+  default     = "CloudFront distribution for static site"
 }
 
 variable "default_root_object" {

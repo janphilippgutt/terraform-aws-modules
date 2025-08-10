@@ -1,11 +1,11 @@
 output "bucket_name" {
   description = "Name of the created S3 bucket"
-  value = aws_s3_bucket.static_site.bucket
+  value       = aws_s3_bucket.static_site.bucket
 }
 
 output "bucket_id" {
   description = "Id of the created S3 bucket"
-  value = aws_s3_bucket.static_site.id
+  value       = aws_s3_bucket.static_site.id
 }
 
 output "website_endpoint" {
@@ -21,5 +21,5 @@ output "bucket_regional_domain_name" {
 
 output "bucket_arn" {
   description = "ARN of the created S3 bucket"
-  value = aws_s3_bucket.static_site.arn
+  value       = aws_s3_bucket.static_site.arn
 }
