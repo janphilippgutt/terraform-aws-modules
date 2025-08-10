@@ -13,15 +13,15 @@ jobs:
     strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
       matrix: # A defined list of module directories to test separately
         module: # Don’t use slashes / inside matrix values directly.
-          - vpc-basic
-          - ec2-basic
-          - s3-static-site-basic
-          - cloudfront-basic
+          - vpc
+          - ec2
+          - s3-static-site
+          - cloudfront
 
     defaults:
       run:
         shell: bash
-        working-directory: examples/${{ matrix.module }}  # Tells the runner which folders to run commands in.
+        working-directory: modules/${{ matrix.module }}  # Tells the runner which folders to run commands in.
 
 
     steps:
