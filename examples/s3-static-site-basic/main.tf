@@ -1,7 +1,4 @@
 
-provider "aws" {
-  region = "eu-central-1"
-}
 
 module "static_site" {
   source = "../../modules/s3-static-site"
