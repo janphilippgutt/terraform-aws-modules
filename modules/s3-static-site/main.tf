@@ -1,4 +1,13 @@
-# Optionally add locals block defining base tags and optional tags
+terraform {
+  required_version = ">= 1.7.5"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.81.0"
+    }
+  }
+}
 
 resource "aws_s3_bucket" "static_site" {
   bucket = var.bucket_name
@@ -50,3 +59,5 @@ resource "aws_s3_bucket_policy" "static_site" {
     ]
   })
 }
+
+# Optionally add locals block defining base tags and optional tags

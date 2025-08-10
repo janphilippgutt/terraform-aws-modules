@@ -1,3 +1,14 @@
+terraform {
+  required_version = ">= 1.7.5"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.81.0"
+    }
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 # Create Origin Access Control (OAC)

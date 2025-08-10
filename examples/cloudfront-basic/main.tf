@@ -3,7 +3,7 @@ module "s3_static_site" {
   bucket_name          = "testing-cloudfront-module-with-default-index-html-0532418"
   environment          = "dev"
   enable_public_access = false
-  use_oac = true
+  use_oac              = true
 }
 
 module "cloudfront" {
