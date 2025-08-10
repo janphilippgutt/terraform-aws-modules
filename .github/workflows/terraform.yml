@@ -12,20 +12,24 @@ jobs:
     runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
     strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
       matrix: # A defined list of module directories to test separately
-        module:
-          - ./examples/vpc-basic
-          - ./examples/ec2-basic
-          - ./examples/s3-static-site-basic
-          - ./examples/cloudfront-basic
+        module: # Don’t use slashes / inside matrix values directly.
+          - vpc-basic
+          - ec2-basic
+          - s3-static-site-basic
+          - cloudfront-basic
 
     defaults:
       run:
         shell: bash
-        working-directory: ${{ matrix.module }}  # Tells the runner which folders to run commands in.
+        working-directory: examples/${{ matrix.module }}  # Tells the runner which folders to run commands in.
+
 
     steps:
       - name: Checkout repo # Downloads repo into the GitHub Actions runner
         uses: actions/checkout@v4 # Version of GitHub Actions
+
+      - name: List files in working dir
+        run: ls -la
 
       - name: Set up Terraform # Installs the Terraform CLI in the runner
         uses: hashicorp/setup-terraform@v3 # @v3 is the major version of this official GitHub Action from HashiCorp
