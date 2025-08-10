@@ -1,5 +1,3 @@
-
-
 # Data source to fetch latest Ubuntu AMI for eu-central-1
 data "aws_ami" "ubuntu" {
   most_recent = true
