@@ -32,3 +32,9 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "for_cloudfront" {
+  description = "If true, do NOT create S3 website configuration and keep bucket private for CloudFront OAC."
+  type        = bool
+  default     = false
+}

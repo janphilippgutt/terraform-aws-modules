@@ -9,8 +9,10 @@ resource "aws_s3_bucket" "static_site" {
     }
 }
 
+# Only create website config if not using CloudFront
 resource "aws_s3_bucket_website_configuration" "static_site" {
-    bucket = aws_s3_bucket.static_site.id
+  count = var.for_cloudfront ? 0 : 1
+  bucket = aws_s3_bucket.static_site.id
 
     index_document {
       suffix = var.index_document
