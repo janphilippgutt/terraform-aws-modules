@@ -13,10 +13,10 @@ jobs:
     strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
       matrix: # A defined list of module directories to test separately
         module:
-          - examples/vpc-basic
-          - examples/ec2-basic
-          - examples/s3-static-site-basic
-          - examples/cloudfront-basic
+          - ./examples/vpc-basic
+          - ./examples/ec2-basic
+          - ./examples/s3-static-site-basic
+          - ./examples/cloudfront-basic
 
     defaults:
       run:
