@@ -21,7 +21,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ matrix.module }}  # Tells the runner which folders to run commands in.
+        working-directory: ${{ matrix.example }}  # Tells the runner which folders to run commands in.
 
     steps:
       - name: Checkout repo # Downloads repo into the GitHub Actions runner
