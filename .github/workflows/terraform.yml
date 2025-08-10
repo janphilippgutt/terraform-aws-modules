@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
     strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
       matrix: # A defined list of module directories to test separately
-        example:
+        module:
           - examples/vpc-basic
           - examples/ec2-basic
           - examples/s3-static-site-basic
