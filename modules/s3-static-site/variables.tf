@@ -16,11 +16,11 @@ variable "enable_public_access" {
   default     = false
 }
 
-#variable "tags" {
-  #description = "Additional tags to add to all resources."
-  #type        = map(string)
-  #default     = {}
-#}
+variable "tags" {
+  description = "Additional tags to add to all resources."
+  type        = map(string)
+  default     = {}
+}
 
 variable "bucket_name" {
   description = "Name of the S3 bucket"

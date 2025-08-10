@@ -12,11 +12,15 @@ terraform {
 resource "aws_s3_bucket" "static_site" {
   bucket = var.bucket_name
 
-  tags = {
-    Name        = var.bucket_name
-    Environment = var.environment
-  }
+  tags = merge(
+    {
+      Name        = var.bucket_name
+      Environment = var.environment
+    },
+    var.tags
+  )
 }
+
 
 # Only create website config if not using CloudFront
 resource "aws_s3_bucket_website_configuration" "static_site" {
