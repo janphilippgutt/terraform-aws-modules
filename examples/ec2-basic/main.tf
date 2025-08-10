@@ -1,14 +1,4 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.81.0"
-    }
-  }
-}
-provider "aws" {
-  region = "eu-central-1"
-}
+
 
 # Data source to fetch latest Ubuntu AMI for eu-central-1
 data "aws_ami" "ubuntu" {
