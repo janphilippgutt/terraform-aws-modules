@@ -38,3 +38,9 @@ variable "for_cloudfront" {
   type        = bool
   default     = false
 }
+
+variable "use_oac" {
+  description = "Whether the bucket is accessed via CloudFront OAC. If true, public access policy will not be created."
+  type = bool
+  default = false
+}

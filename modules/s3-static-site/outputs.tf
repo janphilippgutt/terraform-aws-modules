@@ -9,11 +9,17 @@ output "bucket_id" {
 }
 
 output "website_endpoint" {
-  description = "Website endpoint of the static site"
-  value = aws_s3_bucket_website_configuration.static_site.website_endpoint
+  description = "S3 static site endpoint (only when public access is enabled)"
+  value       = try(aws_s3_bucket_website_configuration.static_site[0].website_endpoint, null)
 }
+
 
 output "bucket_regional_domain_name" {
   value       = aws_s3_bucket.static_site.bucket_regional_domain_name
   description = "Region-specific bucket domain name."
+}
+
+output "bucket_arn" {
+  description = "ARN of the created S3 bucket"
+  value = aws_s3_bucket.static_site.arn
 }

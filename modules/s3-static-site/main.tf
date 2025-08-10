@@ -34,7 +34,7 @@ resource "aws_s3_bucket_public_access_block" "static_site" {
 
 resource "aws_s3_bucket_policy" "static_site" {
     # Grants public (anonymous) read access to all objects in the bucket
-    count  = var.enable_public_access ? 1 : 0 # If enable_public_access = true, the resource will be created once, otherwise not at all
+    count  = var.enable_public_access && !var.use_oac ? 1 : 0 # If enable_public_access = true and use_oac is false, the resource will be created once, otherwise not at all
     bucket = aws_s3_bucket.static_site.id
 
     policy = jsonencode({
