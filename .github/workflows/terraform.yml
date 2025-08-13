@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [main] # Or when someone opens a pull request targeting main
 
+permissions: # Top-level permissions required for OIDC
+  id-token: write
+  contents: read
+
 jobs:
   terraform: # Defines a job called terraform, which runs all the steps below it
-    name: Terraform Lint & Validate
+    name: Terraform Lint & Validate & Plan
     runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
     strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
       matrix: # A defined list of module directories to test separately
@@ -28,7 +32,7 @@ jobs:
       - name: Checkout repo # Downloads repo into the GitHub Actions runner
         uses: actions/checkout@v4 # Version of GitHub Actions
 
-      - name: List files in working dir
+      - name: List files in working dir # Debug step
         run: ls -la
 
       - name: Set up Terraform # Installs the Terraform CLI in the runner
@@ -55,4 +59,13 @@ jobs:
       - name: TFLint Run
         run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
 
-# Consider making terraform plan a separate optional job
+      # Configure AWS credentials via OIDC
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::156041416935:role/github-actions-terraform-plan
+          aws-region: eu-central-1
+
+      # Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
