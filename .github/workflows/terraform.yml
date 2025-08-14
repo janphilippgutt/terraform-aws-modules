@@ -29,12 +29,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
+
       - name: Terraform Init
         run: terraform init
+
       - name: Terraform Validate
         run: terraform validate
+
       - name: Install TFLint
         uses: terraform-linters/setup-tflint@v4
         with:
