@@ -59,13 +59,13 @@ jobs:
       matrix:
         module:
           #- vpc
-          - ec2
+          - ec2-basic
           #- s3-static-site
           #- cloudfront
     defaults:
       run:
         shell: bash
-        working-directory: modules/${{ matrix.module }}
+        working-directory: examples/${{ matrix.module }}
 
     steps:
       - uses: actions/checkout@v4
