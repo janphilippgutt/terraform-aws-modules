@@ -31,7 +31,7 @@ module "vpc" {
 module "ec2" {
   source = "../../modules/ec2"
 
-  ami_id        = data.aws_ami.ubuntu.id
+  default_ami   = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   subnet_id     = module.vpc.public_subnet_ids[0] # Reference first subnet
   name          = "basic ec2"

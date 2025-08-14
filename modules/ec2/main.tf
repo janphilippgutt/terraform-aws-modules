@@ -9,8 +9,13 @@ terraform {
   }
 }
 
+# Decide which AMI to use: user-provided or default
+locals {
+  selected_ami = var.ami_id != "" ? var.ami_id : var.default_ami
+}
+
 resource "aws_instance" "this" {
-  ami           = var.ami_id
+  ami           = local.selected_ami
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
   tags = {

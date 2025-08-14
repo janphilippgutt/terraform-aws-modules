@@ -2,57 +2,91 @@ name: Terraform CI
 
 on:
   push:
-    branches: [main] # Run this workflow when someone pushes to main
+    branches: [main, oidc]  # Run fmt/validate/lint on push
   pull_request:
-    branches: [main] # Or when someone opens a pull request targeting main
+    branches: [main]         # Run terraform plan on PRs targeting main
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  terraform: # Defines a job called terraform, which runs all the steps below it
-    name: Terraform Lint & Validate
-    runs-on: ubuntu-latest # GitHub will spin up a temporary Ubuntu VM to run the job
-    strategy: # The 'matrix' strategy lets the same job run across multiple inputs (in parallel)
-      matrix: # A defined list of module directories to test separately
-        module: # Don’t use slashes / inside matrix values directly.
+  lint-validate:
+    name: Lint & Validate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'  # Only run on push
+    strategy:
+      matrix:
+        module:
           - vpc
           - ec2
           - s3-static-site
           - cloudfront
-
     defaults:
       run:
         shell: bash
-        working-directory: modules/${{ matrix.module }}  # Tells the runner which folders to run commands in.
-
+        working-directory: modules/${{ matrix.module }}
 
     steps:
-      - name: Checkout repo # Downloads repo into the GitHub Actions runner
-        uses: actions/checkout@v4 # Version of GitHub Actions
+      - uses: actions/checkout@v4
 
-      - name: List files in working dir
-        run: ls -la
-
-      - name: Set up Terraform # Installs the Terraform CLI in the runner
-        uses: hashicorp/setup-terraform@v3 # @v3 is the major version of this official GitHub Action from HashiCorp
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
 
       - name: Terraform Format Check
-        run: terraform fmt -check -recursive # Checks if any Terraform files in current directory and subdirectories (-recursive) are misformatted (-check is for check-only mode, no rewriting). It fails the build if there is a formatting issue
+        run: terraform fmt -check -recursive
 
       - name: Terraform Init
-        run: terraform init -backend=false # Initializes the module (downloads required providers, sets up .terraform directory, etc.)
-        # -backend=false so examples don't require real backend config
-      - name: Terraform Validate
-        run: | # Preserving newline
-          terraform validate # Validates the syntax and logical correctness of your Terraform files
-          echo "✅ Terraform configuration is valid"
+        run: terraform init
 
-      - name: Install tflint
-        uses: terraform-linters/setup-tflint@v4 # Downloading the appropriate binary for the runner is baked into the Action. No run command required
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Install TFLint
+        uses: terraform-linters/setup-tflint@v4
         with:
           tflint_version: v0.50.3
-
       - name: TFLint Run
-        run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
+        run: tflint --init && tflint
 
-# Consider making terraform plan a separate optional job
+  plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'  # Only run on PRs
+    strategy:
+      matrix:
+        module:
+          #- vpc
+          - ec2
+          #- s3-static-site
+          #- cloudfront
+    defaults:
+      run:
+        shell: bash
+        working-directory: modules/${{ matrix.module }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.GITHUBACTIONS_ROLE_ARN }}
+          aws-region: eu-central-1
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+
+      - name: Terraform Init
+        run: terraform init -input=false
+
+      - name: Terraform Plan (with dummy vars)
+        run: |
+          terraform plan -input=false \
+          -var="default_ami=ami-12345678" \
+          -var="subnet_id=subnet-12345678" \
+          -var="name=test-instance"
