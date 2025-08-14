@@ -59,13 +59,13 @@ jobs:
       matrix:
         module:
           #- vpc
-          - ec2-basic
+          - ec2
           #- s3-static-site
           #- cloudfront
     defaults:
       run:
         shell: bash
-        working-directory: examples/${{ matrix.module }}
+        working-directory: modules/${{ matrix.module }}
 
     steps:
       - uses: actions/checkout@v4
@@ -82,4 +82,4 @@ jobs:
           terraform_version: 1.12.2
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -input=false -var-file=terraform.tfvars
