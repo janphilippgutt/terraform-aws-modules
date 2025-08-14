@@ -82,4 +82,4 @@ jobs:
           terraform_version: 1.12.2
 
       - name: Terraform Plan
-        run: terraform plan -input=false -var-file=terraform.tfvars
+        run: terraform plan -input=false
