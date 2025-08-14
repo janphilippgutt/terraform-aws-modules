@@ -19,15 +19,17 @@ resource "aws_iam_role" "github_actions_role" {
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
-          # require the audience exactly
+          # require AWS STS audience (this is what AWS expects)
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           },
-          # allow exact branch pushes and PR refs via wildcard
+          # accept a set of sub claim patterns (push to the branch and PR refs)
           StringLike = {
             "token.actions.githubusercontent.com:sub" = [
               "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/${var.branch}",
-              "repo:${var.github_usr}/${var.github_repo}:ref:refs/pull/*"
+              "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/*", # optional - all branches in repo
+              "repo:${var.github_usr}/${var.github_repo}:ref:refs/pull/*",  # PR refs like refs/pull/NN/merge
+              "repo:${var.github_usr}/${var.github_repo}:pull_request"      # some workflows use this short form
             ]
           }
         }
