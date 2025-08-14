@@ -59,10 +59,25 @@ jobs:
       - name: TFLint Run
         run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
 
-      - name: Print GitHub OIDC claim
+      - name: debug print role (masked)
+        run: echo "ROLE_ARN='${{ secrets.GITHUBACTIONS_ROLE_ARN }}'"
+
+
+      - name: Fetch and print id token claims (debug)
         run: |
-          echo "JWT Token:"
-          echo "${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" | base64 --decode || true
+          set -e
+          # Request the ID token from GitHub OIDC endpoint
+          ID_TOKEN_JSON=$(curl -s -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL")
+          echo "raw response: $ID_TOKEN_JSON"
+          ID_TOKEN=$(echo "$ID_TOKEN_JSON" | jq -r .value)
+          # Show whole JWT (will be masked in logs but we can decode payload)
+          echo "::debug::ID_TOKEN=\"$ID_TOKEN\""
+          # Extract payload (2nd part), fix padding, base64url-decode, pretty-print
+          PAYLOAD=$(echo "$ID_TOKEN" | cut -d '.' -f2)
+          # add base64 padding
+          PAD=$((4 - (${#PAYLOAD} % 4)))
+          if [ $PAD -lt 4 ]; then PAYLOAD="$PAYLOAD$(printf '=%.0s' $(seq 1 $PAD))"; fi
+          echo "$PAYLOAD" | base64 --decode | jq .
 
 
       # Configure AWS credentials via OIDC

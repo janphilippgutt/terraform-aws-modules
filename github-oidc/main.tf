@@ -19,11 +19,12 @@ resource "aws_iam_role" "github_actions_role" {
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
+          # require the audience exactly
           StringEquals = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/${var.branch}"
+            "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           },
+          # allow exact branch pushes and PR refs via wildcard
           StringLike = {
-            # allow pushes to the feature branch AND PR runs (refs/pull/*)
             "token.actions.githubusercontent.com:sub" = [
               "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/${var.branch}",
               "repo:${var.github_usr}/${var.github_repo}:ref:refs/pull/*"
