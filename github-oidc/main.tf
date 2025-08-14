@@ -21,6 +21,13 @@ resource "aws_iam_role" "github_actions_role" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:sub" = "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/${var.branch}"
+          },
+          StringLike = {
+            # allow pushes to the feature branch AND PR runs (refs/pull/*)
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:${var.github_usr}/${var.github_repo}:ref:refs/heads/${var.branch}",
+              "repo:${var.github_usr}/${var.github_repo}:ref:refs/pull/*"
+            ]
           }
         }
       }

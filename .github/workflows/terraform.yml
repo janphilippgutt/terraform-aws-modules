@@ -59,11 +59,17 @@ jobs:
       - name: TFLint Run
         run: tflint --init && tflint # Initializes TFLint (downloads plugins like AWS rules) and runs the linter
 
+      - name: Print GitHub OIDC claim
+        run: |
+          echo "JWT Token:"
+          echo "${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" | base64 --decode || true
+
+
       # Configure AWS credentials via OIDC
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::156041416935:role/github-actions-terraform-plan
+          role-to-assume: ${{ secrets.GITHUBACTIONS_ROLE_ARN }}
           aws-region: eu-central-1
 
       # Terraform Plan
