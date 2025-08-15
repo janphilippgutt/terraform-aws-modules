@@ -12,6 +12,8 @@ This repository contains standalone Terraform modules, each in its own folder:
 - [`cloudfront/`](./cloudfront) — Cloudfront CDN, can be combined with s3-static-site module
 - _(More to be added soon)_
 
+For every module, there is an example module-call available in the /examples directory.
+
 ## CI/CD
 
 on **push** (all branches):
