@@ -86,6 +86,5 @@ jobs:
       - name: Terraform Plan (with dummy vars)
         run: |
           terraform plan -input=false \
-          -var="default_ami=ami-12345678" \
           -var="subnet_id=subnet-12345678" \
           -var="name=test-instance"
