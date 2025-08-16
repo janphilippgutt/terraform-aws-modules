@@ -6,12 +6,13 @@ Provisions an EC2 instance using a specified AMI and subnet. It's designed for r
 
 ## Inputs
 
-| Name       | Description                                       | Type     | Required |
-|------------|---------------------------------------------------|----------|----------|
-| ami_id     | AMI ID to use for the instance                    | string   | yes      |
-| subnet_id  | Subnet ID where the instance will be deployed     | string   | yes      |
-| name       | Name tag for the instance                         | string   | yes      |
-| instance_type | EC2 instance type (e.g., t2.micro)             | string   | no (default = `"t2.micro"`) |
+| Name          | Description                                      | Type     | Required                    |
+|---------------|--------------------------------------------------|----------|-----------------------------|
+| ami_id        | AMI ID to use for the instance                   | string   | no (default available)      |
+| default_ami   | Fallback AMI ID to use if ami_id is not provided | string   | no                          |
+| subnet_id     | Subnet ID where the instance will be deployed    | string   | yes                         |
+| name          | Name tag for the instance                        | string   | yes                         |
+| instance_type | EC2 instance type (e.g., t2.micro)               | string   | no (default = `"t2.micro"`) |
 
 ---
 
