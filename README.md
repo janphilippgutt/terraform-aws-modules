@@ -32,8 +32,9 @@ Workflows are located in:
 `.github/workflows/terraform.yml`
 
 ### Note:
-The workflow does not include `terraform apply`: This is a repo for providing modules to be used in external projects and not for deploying them.
-For demonstration, there is an experimental branch `feature/terraform-apply` showing a full CI/CD pipeline including `terraform apply`.
+This repository’s workflow does **not** include `terraform apply`.  
+Its purpose is to provide reusable Terraform modules, not to deploy infrastructure directly.  
+Deployment should be handled in the external projects that consume these modules.
 
 ## How to Use a Module
 
