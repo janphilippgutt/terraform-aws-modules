@@ -28,39 +28,37 @@ Provisions an EC2 instance using a specified AMI and subnet. It's designed for r
 ## Usage
 
 ```hcl
+# VPC with subnet(s)
+module "vpc" {
+  source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/vpc"
+
+  name                 = "devops-vpc"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+
+  public_subnet_cidrs = ["10.0.1.0/24"]
+  availability_zones  = ["eu-central-1a"]
+}
+
+# EC2 instance
 module "ec2" {
   source     = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/ec2"
   subnet_id  = module.vpc.public_subnet_ids[0] # If used combined with the  vpc module
   name       = "my-ec2-instance"
+  
+  # Optional: choose a specific AMI family
+  # ami_family = "ubuntu24.04"
+  # ami_family = "al2023"
+
+  # Optional: pin to a specific AMI (overrides everything)
+  # ami_id = "ami-0abcd1234efgh5678"
 }
 ```
 With **no AMI inputs provided**, the module will:
 
 - Look up the most recent **Ubuntu 22.04 (Jammy)** AMI from Canonical (default ami_family).
 - Launch a t2.micro instance in the provided subnet.
-
-You can override behavior if needed:
-
-```
-# Use Amazon Linux 2023
-module "ec2" {
-  source = "../../modules/ec2"
-
-  subnet_id   = module.vpc.public_subnet_ids[0]
-  name        = "al2023-instance"
-  ami_family  = "al2023"
-}
-
-# Pin a specific AMI (compliance, golden image, etc.)
-module "ec2" {
-  source = "../../modules/ec2"
-
-  subnet_id = module.vpc.public_subnet_ids[0]
-  name      = "custom-ami-instance"
-  ami_id    = "ami-0abcd1234efgh5678"
-}
-
-```
 
 ### Notes
 
