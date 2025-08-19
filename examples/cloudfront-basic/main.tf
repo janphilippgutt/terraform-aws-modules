@@ -4,6 +4,7 @@ module "s3_static_site" {
   environment          = "dev"
   enable_public_access = false
   use_oac              = true
+  for_cloudfront       = true
 }
 
 module "cloudfront" {
