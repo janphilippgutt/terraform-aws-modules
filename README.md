@@ -42,7 +42,7 @@ You can consume any module in another Terraform project by using a `source` refe
 
 ```hcl
 module "vpc" {
-  source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//vpc?ref=main"
+  source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/vpc?ref=main"
 
   # Pass required variables here
 }
