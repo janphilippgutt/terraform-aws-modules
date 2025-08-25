@@ -1,6 +1,12 @@
 # S3 Static Website Hosting Module
 
-A reusable Terraform module for deploying an Amazon S3 bucket configured to host a static website, optionally allowing public access. This module also supports adding a bucket policy for public read access to objects.
+### A reusable Terraform module for deploying an Amazon S3 bucket configured to host a static website, optionally allowing:
+
+**a) Public access** 
+
+or 
+
+**b) Cloudfront-ready configurations.**
 
 ## Inputs
 
@@ -28,17 +34,37 @@ A reusable Terraform module for deploying an Amazon S3 bucket configured to host
 
 
 ## Usage
+With public access:
 ```
 module "static_site" {
   source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/s3-static-site?ref=v1.0.0"
 
-  bucket_name          = "my-portfolio-site-bucket"
+  bucket_name          = "my-static-site-bucket"
   enable_public_access = true
   index_document       = "index.html"
   error_document       = "404.html"
 
   tags = {
-    Project = "DevOps Portfolio"
+    Project = "Static-Site-Public-Access"
+    Module  = "s3-static-site"
+  }
+}
+```
+For cloudfront (without public access):
+
+```
+module "static_site" {
+  source = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//modules/s3-static-site?ref=v1.0.0"
+
+  bucket_name          = "my-cloudfront-site-bucket"
+  enable_public_access = false
+  index_document       = "index.html"
+  error_document       = "404.html"
+  for_cloudfront       = true
+  use_oac              = true
+
+  tags = {
+    Project = "Static-Site-Cloudfront"
     Module  = "s3-static-site"
   }
 }
