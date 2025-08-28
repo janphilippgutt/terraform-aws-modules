@@ -58,10 +58,10 @@ jobs:
     strategy:
       matrix:
         example:
-          #- vpc
+          - vpc-basic
           - ec2-basic
-          #- s3-static-site
-          #- cloudfront
+          - s3-static-site-basic
+          - cloudfront-basic
           - ecr-basic
     defaults:
       run:
