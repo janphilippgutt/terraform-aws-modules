@@ -1,4 +1,9 @@
 # live/dev/ec2/terragrunt.hcl
+
+include {
+  path = find_in_parent_folders()
+}
+
 terraform {
   source = "../../../modules/ec2"
 }

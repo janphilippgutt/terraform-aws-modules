@@ -1,18 +1,6 @@
 # live/dev/terragrunt.hcl
 # This file defines common settings for all modules in dev environment.
 
-terraform {
-  # Tell Terragrunt where to find Terraform modules
-  # Each module block will reference one of your repos' modules
-  extra_arguments "common_vars" {
-    commands = get_terraform_commands_that_need_vars()
-
-    arguments = [
-      "-var", "environment=dev"
-    ]
-  }
-}
-
 locals {
   env_config   = read_terragrunt_config(find_in_parent_folders("env.hcl"))
   aws_region   = local.env_config.locals.aws_region
@@ -30,4 +18,9 @@ remote_state {
     encrypt        = true
     dynamodb_table = local.lock_table
   }
+}
+
+# Pass common variables (no need for terraform.tfvars anymore)
+inputs = {
+  environment = "dev"
 }
