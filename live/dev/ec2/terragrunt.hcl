@@ -4,18 +4,12 @@ include {
   path = find_in_parent_folders()
 }
 
-terraform {
-  source = "../../../modules/ec2"
-}
-
-dependencies {
-  paths = ["../vpc"]
+dependency "vpc" {
+  config_path = "../vpc"
 }
 
 inputs = {
-  name          = "dev-ec2"
+  name = "devops-ec2"
   instance_type = "t2.micro"
-
-  # Use output from VPC module (Terragrunt passes it automatically)
   subnet_id = dependency.vpc.outputs.public_subnet_ids[0]
 }

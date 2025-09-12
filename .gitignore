@@ -14,8 +14,9 @@ crash.log
 # Terraform TFLint
 .tflint.hcl
 
-# Terragrunt Env
+# Terragrunt
 env.hcl
+.terragrunt-cache*
 
 # Local override files
 override.tf
