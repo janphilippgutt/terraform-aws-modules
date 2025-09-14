@@ -1,6 +1,6 @@
 # live/dev/vpc/terragrunt.hcl
 
-include {
+include "environment_config" {
   path = find_in_parent_folders("terragrunt.hcl")
 }
 
