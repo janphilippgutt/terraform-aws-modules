@@ -39,6 +39,7 @@ Thumbs.db
 # Notes files
 NOTES.md
 IMAGE_TAG_MUTABILITY_NOTES.md
+TERRAGRUNT_NOTES
 
 # HTML
 index.html
