@@ -10,6 +10,6 @@ dependency "s3_static_site" {
 
 inputs = {
   bucket_domain_name = dependency.s3_static_site.outputs.bucket_domain_name
-  bucket_name =
-  bucket_arn =
+  bucket_name = dependency.s3_static_site.outputs.bucket_name
+  bucket_arn = dependency.s3_static_site.outputs.bucket_arn
 }
