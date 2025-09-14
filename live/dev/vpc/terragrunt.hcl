@@ -4,4 +4,12 @@ include {
   path = find_in_parent_folders("terragrunt.hcl")
 }
 
-# This file only inherits remote_state + inputs like environment from parent
+inputs = {
+  name = "devops-vpc"
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+
+  public_subnet_cidrs = ["10.0.1.0/24"]
+  availability_zones = ["eu-central-1a"]
+}
