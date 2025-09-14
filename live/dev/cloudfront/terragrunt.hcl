@@ -1,7 +1,7 @@
 # live/dev/cloudfront/terragrunt.hcl
 
 include {
-  path = find_in_parent_folders()
+  path = find_in_parent_folders("terragrunt.hcl")
 }
 
 dependency "s3_static_site" {
