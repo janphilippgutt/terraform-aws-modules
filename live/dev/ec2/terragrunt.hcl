@@ -9,7 +9,7 @@ dependency "vpc" {
 }
 
 inputs = {
-  name = "devops-ec2"
+  name          = "devops-ec2"
   instance_type = "t2.micro"
-  subnet_id = dependency.vpc.outputs.public_subnet_ids[0]
+  subnet_id     = dependency.vpc.outputs.public_subnet_ids[0]
 }

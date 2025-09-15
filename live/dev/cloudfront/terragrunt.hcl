@@ -5,11 +5,11 @@ include "environment_config" {
 }
 
 dependency "s3_static_site" {
-  config_path = "../s3_static_site"
+  config_path = "../s3-static-site"
 }
 
 inputs = {
   bucket_domain_name = dependency.s3_static_site.outputs.bucket_domain_name
-  bucket_name = dependency.s3_static_site.outputs.bucket_name
-  bucket_arn = dependency.s3_static_site.outputs.bucket_arn
+  bucket_name        = dependency.s3_static_site.outputs.bucket_name
+  bucket_arn         = dependency.s3_static_site.outputs.bucket_arn
 }

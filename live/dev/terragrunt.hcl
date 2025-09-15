@@ -3,16 +3,16 @@
 
 locals {
   common_env = read_terragrunt_config(find_in_parent_folders("env.hcl"))
-  env_config   = read_terragrunt_config("env.hcl")
+  env_config = read_terragrunt_config("env.hcl")
 
 
   aws_region   = local.common_env.locals.aws_region
   state_bucket = local.common_env.locals.state_bucket
   lock_table   = local.common_env.locals.lock_table
-  environment = local.env_config.env
+  environment  = local.env_config.locals.env
 }
 
-include {
+include "root" {
   path = find_in_parent_folders("root.hcl")
 }
 

@@ -5,10 +5,10 @@ include "environment_config" {
 }
 
 inputs = {
-  bucket_name = "my-static-site-dev-bucket-1234567890000"
+  bucket_name          = "my-static-site-dev-bucket-1234567890000"
   enable_public_access = false
-  for_cloudfront = true
-  use_oac = true
+  for_cloudfront       = true
+  use_oac              = true
 
   tags = {
     Environment = "dev"
