@@ -1,4 +1,3 @@
-
 variable "ami_id" {
   description = "Optional explicit AMI ID to use (overrides lookup)."
   type        = string
