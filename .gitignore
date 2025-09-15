@@ -15,6 +15,7 @@ crash.log
 .tflint.hcl
 
 # Terragrunt
+root_env.hcl
 env.hcl
 .terragrunt-cache*
 

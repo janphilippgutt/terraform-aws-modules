@@ -1,0 +1,10 @@
+# Global values; they are supposed to be the same across all environments
+
+# EXAMPLE
+# ADJUST WITH YOUR EXACT VALUES
+
+locals {
+  aws_region   = "eu-central-1"
+  state_bucket = "backend-bucket"
+  lock_table   = "tf-lock"
+}
