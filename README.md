@@ -10,6 +10,7 @@ This repository contains standalone Terraform modules, each in its own folder:
 - [`ec2/`](./ec2) — EC2 with optional smart ami fetching support
 - [`s3-static-site/`](./s3-static-site) — S3 resources for hosting static websites securely
 - [`cloudfront/`](./cloudfront) — Cloudfront CDN, can be combined with s3-static-site module
+- [`ecr/`](./ecr) — Elastic Container Registry
 - _(More to be added soon)_
 
 For every module, there is an example module-call available in the /examples directory.
@@ -51,6 +52,8 @@ module "vpc" {
 ## Requirements
 
     Terraform CLI (v1.12.2)
+
+    Terragrunt (v0.87.1)
 
     TFLint (v0.50.3)
 
