@@ -29,3 +29,24 @@ variable "name" {
   description = "Name tag for the EC2 instance"
   type        = string
 }
+
+# optional: provide an SSH key name (AWS Key Pair name) to allow SSH to instance
+variable "key_name" {
+  description = "Name of the AWS key pair to attach (optional). Leave empty to not set."
+  type        = string
+  default     = ""
+}
+
+# optional: pass security group IDs (list). If empty, default VPC SG will be used.
+variable "security_group_ids" {
+  description = "List of VPC security group IDs to attach to the instance (optional)"
+  type        = list(string)
+  default     = []
+}
+
+# optional: arbitrary user_data (cloud-init) to bootstrap the instance
+variable "user_data" {
+  description = "Optional user_data (cloud-init) script to run on boot"
+  type        = string
+  default     = ""
+}

@@ -26,4 +26,13 @@ resource "aws_instance" "this" {
   tags = {
     Name = var.name
   }
+
+  # attach key pair only if a name was provided
+  key_name = var.key_name != "" ? var.key_name : null
+
+  # attach security groups if provided (else AWS will use default SG)
+  vpc_security_group_ids = length(var.security_group_ids) > 0 ? var.security_group_ids : null
+
+  # provide user_data if provided
+  user_data = var.user_data != "" ? var.user_data : null
 }
