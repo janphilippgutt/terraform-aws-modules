@@ -41,7 +41,7 @@ variable "key_name" {
 variable "security_group_ids" {
   description = "List of VPC security group IDs to attach to the instance (optional)"
   type        = list(string)
-  default     = []
+  default     = [] # Translates to length(var.security_group_ids)  not > 0
 }
 
 # optional: arbitrary user_data (cloud-init) to bootstrap the instance
