@@ -31,15 +31,45 @@ resource "aws_security_group" "observability" {
   description = "Allow SSH, Prometheus, Grafana, Node Exporter from admin IP"
   vpc_id      = module.vpc.vpc_id
 
-  ingress = [
-    { from_port = 22,   to_port = 22,   protocol = "tcp", cidr_blocks = [var.my_ip_cidr] },
-    { from_port = 9090, to_port = 9090, protocol = "tcp", cidr_blocks = [var.my_ip_cidr] }, # Prometheus
-    { from_port = 3000, to_port = 3000, protocol = "tcp", cidr_blocks = [var.my_ip_cidr] }, # Grafana
-    { from_port = 9100, to_port = 9100, protocol = "tcp", cidr_blocks = [var.my_ip_cidr] }  # node_exporter
-  ]
-  egress = [
-    { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
-  ]
+  ingress {
+    description = "SSH access"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip_cidr]
+  }
+
+  ingress {
+    description = "Prometheus"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip_cidr]
+  }
+
+  ingress {
+    description = "Grafana"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip_cidr]
+  }
+
+  ingress {
+    description = "Node Exporter"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = [var.my_ip_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   tags = { Name = "observability-sg" }
 }
 
@@ -53,10 +83,10 @@ resource "aws_key_pair" "obs_key" {
 module "observability" {
   source = "../../modules/ec2"
 
-  name       = "observability-instance"
-  instance_type = "t3.micro"
-  subnet_id  = module.vpc.public_subnet_ids[0]
-  key_name   = aws_key_pair.obs_key.key_name
+  name               = "observability-instance"
+  instance_type      = "t3.micro"
+  subnet_id          = module.vpc.public_subnet_ids[0]
+  key_name           = aws_key_pair.obs_key.key_name
   security_group_ids = [aws_security_group.observability.id]
 
   # load the user_data from file in this directory
