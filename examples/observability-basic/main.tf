@@ -60,5 +60,5 @@ module "observability" {
   security_group_ids = [aws_security_group.observability.id]
 
   # load the user_data from file in this directory
-  user_data = file("${path.module}/user_data.sh")
+  user_data = file("${path.module}/user_data.sh") # ${path.module} evaluates to the absolute path of the module where the code is defined
 }
