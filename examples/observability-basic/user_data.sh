@@ -1,10 +1,14 @@
 #!/bin/bash
-set -eux
+set -eux   # Exit on error, print each command, treat unset variables as error
 
-# install packages (works for Amazon Linux or Ubuntu)
+# -----------------------------
+# 1) Install Docker (Amazon Linux or Ubuntu)
+# -----------------------------
 if command -v dnf >/dev/null 2>&1; then
+  # Amazon Linux
   dnf -y install docker
 elif command -v apt-get >/dev/null 2>&1; then
+  # Ubuntu
   apt-get update
   apt-get -y install docker.io
 else
@@ -12,9 +16,12 @@ else
   exit 1
 fi
 
+# Enable Docker to start on boot and start it now
 systemctl enable --now docker
 
-# create prometheus config dir and file
+# -----------------------------
+# 2) Create Prometheus config
+# -----------------------------
 mkdir -p /opt/prometheus
 cat > /opt/prometheus/prometheus.yml <<'EOF'
 global:
@@ -26,13 +33,27 @@ scrape_configs:
       - targets: ['localhost:9100']
 EOF
 
-# start node_exporter
-docker run -d --restart unless-stopped --name node_exporter -p 9100:9100 prom/node-exporter:latest
+# -----------------------------
+# 3) Start Node Exporter (metrics for host)
+# -----------------------------
+docker run -d --restart unless-stopped \
+  --name node_exporter \
+  -p 9100:9100 \
+  prom/node-exporter:latest
 
-# start prometheus
-docker run -d --restart unless-stopped --name prometheus -p 9090:9090 \
+# -----------------------------
+# 4) Start Prometheus
+# -----------------------------
+docker run -d --restart unless-stopped \
+  --name prometheus \
+  --network host \
   -v /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
   prom/prometheus:latest --config.file=/etc/prometheus/prometheus.yml
 
-# start grafana (default admin/admin)
-docker run -d --restart unless-stopped --name grafana -p 3000:3000 grafana/grafana-oss:latest
+# -----------------------------
+# 5) Start Grafana
+# -----------------------------
+docker run -d --restart unless-stopped \
+  --name grafana \
+  --network host \
+  grafana/grafana-oss:latest
