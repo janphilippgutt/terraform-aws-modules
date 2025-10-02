@@ -1,6 +1,18 @@
 # VPC Module
 
-Creates a basic AWS VPC.
+This Terraform module creates a basic **VPC** setup with public subnets, an **Internet Gateway (IGW)**, and route table associations.
+
+### Features
+
+- Creates a new VPC with customizable CIDR block.
+
+- Creates one or more public subnets (maps public IPs on launch).
+
+- Deploys an Internet Gateway (IGW) to allow internet access.
+
+- Configures a public route table and automatically associates it with all public subnets.
+
+- Supports DNS hostnames and DNS resolution options.
 
 ## Inputs
 
@@ -26,7 +38,7 @@ Creates a basic AWS VPC.
 
 ```hcl
 module "vpc" {
-  source     = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//vpc?ref=v1.0.0"
+  source     = "git::https://github.com/janphilippgutt/terraform-aws-modules.git//vpc"
   cidr_block = "10.0.0.0/16"
   name       = "my-vpc"
 }
