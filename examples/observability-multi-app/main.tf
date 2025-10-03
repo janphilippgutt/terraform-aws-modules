@@ -120,7 +120,7 @@ module "observability" {
 
 # 5) Launch EC2s via the EC2 module, pass the user_data (user_data.sh in this folder)
 module "app_servers" {
-  source = "../../modules/ec2"
+  source   = "../../modules/ec2"
   for_each = toset(var.app_servers)
 
   name               = each.value
@@ -130,4 +130,9 @@ module "app_servers" {
   security_group_ids = [aws_security_group.app_server.id]
 
   user_data = file("${path.module}/user_data_app_server.sh")
+}
+
+# local list of private IPs for exposal in outputs
+locals {
+  app_server_ips = [for s in module.app_servers : s.private_ip]
 }
