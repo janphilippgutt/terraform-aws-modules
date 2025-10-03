@@ -29,6 +29,7 @@ override.tf.json
 example*/.terraform/
 example*/terraform.tfstate*
 example*/terraform.tfplan
+user_data.example.sh
 
 # PyCharm
 .idea/

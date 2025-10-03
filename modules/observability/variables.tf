@@ -21,3 +21,9 @@ variable "security_group_ids" {
 variable "user_data" {
   type = string
 }
+
+variable "app_server_private_ip" {
+  description = "Private IP of the app server to scrape"
+  type        = string
+  default     = ""
+}
