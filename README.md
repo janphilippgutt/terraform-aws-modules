@@ -1,6 +1,6 @@
 # terraform-aws-modules
 
-Reusable Terraform modules for AWS infrastructure — built for clean automation, consistency, and DevOps portfolio demonstration.
+Reusable Terraform modules for AWS infrastructure - built for clean automation, consistency, and DevOps portfolio demonstration.
 
 ## Modules
 
@@ -8,6 +8,7 @@ This repository contains standalone Terraform modules, each in its own folder:
 
 - [`vpc/`](./vpc) — Virtual Private Cloud with DNS, subnet, and gateway support
 - [`ec2/`](./ec2) — EC2 with optional smart ami fetching support
+- [`observability/`](./observability) — EC2 with latest ubuntu image that reads user_data; used for stacks with Prometheus and Grafana
 - [`s3-static-site/`](./s3-static-site) — S3 resources for hosting static websites securely
 - [`cloudfront/`](./cloudfront) — Cloudfront CDN, can be combined with s3-static-site module
 - [`ecr/`](./ecr) — Elastic Container Registry
