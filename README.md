@@ -1,6 +1,13 @@
 # terraform-aws-modules
 
-Reusable Terraform modules for AWS infrastructure - built for clean automation, consistency, and DevOps portfolio demonstration.
+Reusable Terraform modules for AWS infrastructure - built for clean automation and consistency.
+
+### Features: 
+
+- **Modules**
+- **CI/CD**
+- **Observability (Prometheus, Grafana)**
+- **Environment Organisation (Terragrunt)**
 
 ## Modules
 
@@ -38,6 +45,16 @@ This repository’s workflow does **not** include `terraform apply`.
 Its purpose is to provide reusable Terraform modules, not to deploy infrastructure directly.  
 Deployment should be handled in the external projects that consume these modules.
 
+## Observabilitiy
+
+This project includes a observability stack on AWS. 
+### =>  **See ./examples/observability-documentation**
+
+It provisions infrastructure via Terraform modules, deploys monitoring tools (Prometheus, Grafana, node_exporter), and visualizes metrics from EC2 instances.
+
+<img width="758" height="448" alt="Image" src="https://github.com/user-attachments/assets/72f6ade7-555d-41b2-834b-1057dcdb7664" />
+
+
 ## How to Use a Module
 
 You can consume any module in another Terraform project by using a `source` reference like:
@@ -49,6 +66,18 @@ module "vpc" {
   # Pass required variables here
 }
 ```
+
+## Environment Organisation with Terragrunt
+
+The ./live/ - Directory contains my organisation of environments with **Terragrunt**.  
+
+### Highlights
+- Root plus environment-level configuration with `env.hcl` files
+- Remote state management with S3 + DynamoDB
+- Dependency wiring using Terragrunt `dependency` blocks
+- Mock outputs for smooth validation workflows
+
+The `dev` environment is implemented so far; `stage` and `prod` will follow
 
 ## Requirements
 

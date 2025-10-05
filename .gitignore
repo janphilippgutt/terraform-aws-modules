@@ -42,6 +42,7 @@ Thumbs.db
 NOTES.md
 IMAGE_TAG_MUTABILITY_NOTES.md
 TERRAGRUNT_NOTES
+examples/observability-documentation/screenshots
 
 # HTML
 index.html
